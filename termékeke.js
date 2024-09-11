@@ -85,6 +85,43 @@ const products = [
   }
 ];
 
+function makeBoxes(){
+  const content = products.map(product =>
+    `<div class="product-card" id="${product.id}">
+      <img src="${product.picture}">
+      <h3>${product.name}</h3>
+      <p>${product.description}</p>
+      <p>Ár: ${product.price} Ft</p>
+    </div>`
+  )
+  return content;
+}
+  
+  
+
+
+function renderCards(){
+  const prod = document.querySelector(".products");
+  prod.innerHTML = "";
+  prod.innerHTML = makeBoxes().join()
+  return prod
+}
+
+//inicializálódik az oldal
+
+
+
+
+//dinamikus tartalom feltöltése
+document.addEventListener("DOMContentLoaded", () =>{
+  renderCards();
+})
+
+
+
+
+
+
 // szűrés elkészítése:
 
 //-gombra esemény figyelő
