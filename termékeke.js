@@ -86,9 +86,33 @@ const products = [
 ];
 
 // szűrés elkészítése:
-/*
--gombra esemény figyelő
--input értékek kivétele
--filterrel szűrni a termékek objektum-listában
--??? a szűrt eredmények megjelenítése???
-*/
+
+//-gombra esemény figyelő
+const szures=document.getElementById("filter-btn")
+szures.addEventListener("click",()=>{
+
+})
+
+//-input értékek kivétele
+const checking=()=>{
+  const minPrice=document.getElementById("min-price").value
+  const maxPrice=document.getElementById("max-price").value
+  if (!minPrice.trim() || maxPrice.trim()){
+    return [false, 0];
+}
+if (isNaN(minPrice) || isNaN(maxPrice)){
+    return [false,0]
+}
+const minPrice2=Number(minPrice)
+const maxPrice2=Number(maxPrice)
+return [true, minPrice2,maxPrice2];
+}
+
+//-filterrel szűrni a termékek objektum-listában
+const szuresWithFilter=()=>{
+  const[eredmeny,minPrice,MaxPrice]=checking();
+ const searched=products.filter((e,minPrice,maxPrice)=>e>minPrice||e<maxPrice)
+ return searched;
+}
+
+//-??? a szűrt eredmények megjelenítése???
