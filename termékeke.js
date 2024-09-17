@@ -154,6 +154,9 @@ function Values(){
 function Message1(){
   alert("Érvénytelen értéket adott meg!")
 }
+function Message2(){
+  alert("Nem található ilyen termék az áruházban!")
+}
 //ervenyesseg:
 const Checking=(minValue,maxValue)=>{
   if(!minValue||!maxValue){
@@ -174,11 +177,16 @@ const Checking=(minValue,maxValue)=>{
 //szures az input ertekek alapjan:
 const filtering=(data,minV,maxV,callback)=>{
   const [Checking,number1,number2]=callback(minV,maxV)
-  if(Checking){
-    const filteredProducts=data.filter(product=>product.price>=number1 && product.price<=number2)
-    return filteredProducts;
+  /* if(!Checking){
+    Message1()
+    return[]
+  } */
+  const filteredProducts=data.filter(product=>product.price>=number1 && product.price<=number2)
+  if(filteredProducts.length===0){
+    Message2()
+    return [];
   }
-  
+  return filteredProducts;
 }
 
 //vege
