@@ -119,37 +119,73 @@ document.addEventListener("DOMContentLoaded", () =>{
 
 
 
-
-
-
 // szűrés elkészítése:
-
 //-gombra esemény figyelő
-const szures=document.getElementById("filter-btn")
-szures.addEventListener("click",()=>{
 
-})
 
 //-input értékek kivétele
-const checking=()=>{
-  const minPrice=document.getElementById("min-price").value
-  const maxPrice=document.getElementById("max-price").value
+/* const checking=(minPrice,maxPrice)=>{
   if (!minPrice.trim() || maxPrice.trim()){
-    return [false, 0];
+    return [false, 0,0];
 }
 if (isNaN(minPrice) || isNaN(maxPrice)){
-    return [false,0]
+    return [false,0,0]
 }
 const minPrice2=Number(minPrice)
 const maxPrice2=Number(maxPrice)
 return [true, minPrice2,maxPrice2];
-}
+} */
 
 //-filterrel szűrni a termékek objektum-listában
-const szuresWithFilter=()=>{
+/*const szuresWithFilter=()=>{
   const[eredmeny,minPrice,MaxPrice]=checking();
  const searched=products.filter((e,minPrice,maxPrice)=>e>minPrice||e<maxPrice)
- return searched;
-}
+ return searched; }*/
+
 
 //-??? a szűrt eredmények megjelenítése???
+//órán csinált dolgok:
+function Values(){
+  const minPrice=document.getElementById("min-price").value
+  const maxPrice=document.getElementById("max-price").value
+  return [minPrice,maxPrice];
+}
+//hibauzenetek:
+function Message1(){
+  alert("Érvénytelen értéket adott meg!")
+}
+//ervenyesseg:
+const Checking=(minValue,maxValue)=>{
+  if(!minValue||!maxValue){
+    Message1()
+    return[false,0,0];
+  }
+  if(isNaN(minValue)||isNaN(maxValue)){
+    Message1();
+    return[false,0,0]
+  }
+  let x=Number(minValue);
+  let y=Number(maxValue)
+  if(x>y){
+    [x,y]=[y,x]
+  }
+  return[true,x,y];
+}
+//szures az input ertekek alapjan:
+const filtering=(data,minV,maxV,callback)=>{
+  const [Checking,number1,number2]=callback(minV,maxV)
+  if(Checking){
+    const filteredProducts=data.filter(product=>product.price>=number1 && product.price<=number2)
+    return filteredProducts;
+  }
+  
+}
+
+//vege
+const szures=document.getElementById("filter-btn")
+szures.addEventListener("click",()=>{
+  const [minValue,maxValue]=Values();
+  const filteredProductsList=filtering(products,minValue,maxValue,Checking)
+  const nedwCardsHTML=createProductCards(filteredProductsList)
+  renderCards(nedwCardsHTML)
+})
