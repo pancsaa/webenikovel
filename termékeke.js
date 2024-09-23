@@ -94,8 +94,9 @@ function makeBoxes(){
       <p>Ár: ${product.price} Ft</p>
     </div>`
   )
-  return content;
+  return content.join('');
 }
+const cardsHTML=makeBoxes(products)
   
   
 
@@ -103,7 +104,7 @@ function makeBoxes(){
 function renderCards(){
   const prod = document.querySelector(".products");
   prod.innerHTML = "";
-  prod.innerHTML = makeBoxes().join()
+  prod.innerHTML = makeBoxes()
   return prod
 }
 
@@ -114,7 +115,7 @@ function renderCards(){
 
 //dinamikus tartalom feltöltése
 document.addEventListener("DOMContentLoaded", () =>{
-  renderCards();
+  renderCards(cardsHTML);
 })
 
 
@@ -160,19 +161,12 @@ function Message2(){
 //ervenyesseg:
 const Checking=(minValue,maxValue)=>{
   if(!minValue||!maxValue){
-    Message1()
     return[false,0,0];
   }
   if(isNaN(minValue)||isNaN(maxValue)){
-    Message1();
     return[false,0,0]
   }
-  let x=Number(minValue);
-  let y=Number(maxValue)
-  if(x>y){
-    [x,y]=[y,x]
-  }
-  return[true,x,y];
+  return[true,Number(minValue),Number(maxValue)];
 }
 //szures az input ertekek alapjan:
 const filtering=(data,minV,maxV,callback)=>{
@@ -181,6 +175,14 @@ const filtering=(data,minV,maxV,callback)=>{
     Message1()
     return[]
   } */
+  if(!Checking){
+    Message1()
+    return[]
+  }
+  if(number1>number2){
+    [number1,number2]=[number2,number1]
+  }
+
   const filteredProducts=data.filter(product=>product.price>=number1 && product.price<=number2)
   if(filteredProducts.length===0){
     Message2()
@@ -190,10 +192,25 @@ const filtering=(data,minV,maxV,callback)=>{
 }
 
 //vege
-const szures=document.getElementById("filter-btn")
-szures.addEventListener("click",()=>{
+const filteredProds=()=>{
+  const szures=document.getElementById("filter-btn")
+  szures.addEventListener("click",()=>{
+    const [minPrice,maxPrice]=Values()
+    const fProds=filtering(products,minPrice,maxPrice,Checking)
+    if(fProds){
+      const foundedProducts=makeBoxes(fProds)
+
+      renderCards(foundedProducts)
+    }
+  })
+}
+filteredProds();
+
+
+
+/* szures.addEventListener("click",()=>{
   const [minValue,maxValue]=Values();
   const filteredProductsList=filtering(products,minValue,maxValue,Checking)
   const nedwCardsHTML=createProductCards(filteredProductsList)
   renderCards(nedwCardsHTML)
-})
+}) */
